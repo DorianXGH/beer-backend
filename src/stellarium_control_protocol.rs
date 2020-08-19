@@ -1,5 +1,7 @@
+use std::net
+
 #[repr(C, packed)]
-struct goto_msg {
+struct GotoMsg {
     length : u16,
     type : u16,
     time : u64,
@@ -8,7 +10,7 @@ struct goto_msg {
 };
 
 #[repr(C, packed)]
-struct current_pos_msg {
+struct CurrentPosMsg {
     length : u16,
     type : u16,
     time : u64,
@@ -16,3 +18,20 @@ struct current_pos_msg {
     declisation : i32,
     status : i32
 };
+
+struct Connection {
+    buffer : [u8;std::mem::size_of(GotoMsg)],
+    stream : &mut net::TcpStream,
+};
+
+impl Connection {
+    fn readmsg($self) -> GotoMsg {
+        let numawait = self.stream.peek(&mut self.buffer).unwrap();
+        if(numawait == std::mem::size_of(GotoMsg))
+        {
+            self.stream.read(&mut self.buffer).unwrap();
+            
+        }
+
+    }
+}
