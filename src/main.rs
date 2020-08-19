@@ -15,6 +15,6 @@ fn main() {
 }
 
 fn handle_connection(mut stream: TcpStream) {
-    let con = Connection::from_stream(&mut stream);
+    let mut con = Connection::from_stream(&mut stream);
     con.readmsg().unwrap();
 }
