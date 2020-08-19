@@ -6,6 +6,7 @@ use std::net::TcpStream;
 use stellarium_control_protocol::Connection;
 use stellarium_control_protocol::GotoMsg;
 use chrono::{Local, DateTime, TimeZone};
+use astro::coords::EqPoint;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -23,9 +24,22 @@ fn handle_connection(mut stream: TcpStream) {
     {
         match(con.readmsg())
         {
-            Some(a) => println!("Msg received : {}", a.declination),
+            Some(a) => {
+                let (alt,az) = get_altaz_coord(a);
+                println!("Msg received : {} {}", alt, az);
+
+            },
             None => (),
         }
     }
     
+}
+
+fn get_altaz_coord(msg : GotoMsg) -> (f64,f64)
+{
+    let eq = EqPoint {
+        dec : std::f64::consts::PI * (msg.declination as f64)/(0x1_0000_0000 as f64),
+        asc : std::f64::consts::PI * (msg.declination as f64)/(0x8000_0000 as f64)
+    };
+    convert::eq_to_altaz(eq, 0.795, 0.103)
 }
