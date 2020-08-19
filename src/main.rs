@@ -1,4 +1,5 @@
-use std::io::prelude::*;
+mod stellarium_control_protocol;
+
 use std::net::TcpListener;
 use std::net::TcpStream;
 use stellarium_control_protocol::Connection;
@@ -14,6 +15,6 @@ fn main() {
 }
 
 fn handle_connection(mut stream: TcpStream) {
-    let con = Connection::from_stream(&mut stream)
+    let con = Connection::from_stream(&mut stream);
     con.readmsg().unwrap();
 }
