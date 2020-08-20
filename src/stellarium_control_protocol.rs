@@ -36,7 +36,7 @@ impl<'a> Connection <'a> {
 
     pub fn readmsg(&mut self) -> Option<GotoMsg> {
         let numawait = self.stream.peek(&mut self.buffer).unwrap();
-        if(numawait == std::mem::size_of::<GotoMsg>())
+        if numawait == std::mem::size_of::<GotoMsg>()
         {
             self.stream.read(&mut self.buffer).unwrap();
             let goto = GotoMsg {

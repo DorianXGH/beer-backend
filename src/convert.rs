@@ -1,4 +1,4 @@
-use chrono::{Local, DateTime, TimeZone};
+use chrono::{Local, DateTime};
 use chrono::{Datelike, Timelike};
 use astro::coords::*;
 use astro::time::*;
