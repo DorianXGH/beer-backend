@@ -7,6 +7,7 @@ use std::net::TcpStream;
 use stellarium_control_protocol::Connection;
 use stellarium_control_protocol::GotoMsg;
 use astro::coords::EqPoint;
+use std::thread;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -14,7 +15,7 @@ fn main() {
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        handle_connection(stream);
+        thread::spawn(|| {handle_connection(stream)});
     }
 }
 
